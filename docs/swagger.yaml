@@ -1,0 +1,50 @@
+definitions:
+  model.Article:
+    properties:
+      author:
+        type: string
+      content:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: string
+      is_deleted:
+        type: boolean
+      likes:
+        type: integer
+      title:
+        type: string
+      updated_at:
+        type: string
+    required:
+    - author
+    - content
+    - id
+    - title
+    type: object
+info:
+  contact: {}
+paths:
+  /v1/article/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get article by given ID.
+      parameters:
+      - description: Article ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Article'
+      summary: get article by given ID
+      tags:
+      - Article
+swagger: "2.0"
