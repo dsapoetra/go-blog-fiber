@@ -47,6 +47,38 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/v1/author/{id}": {
+            "get": {
+                "description": "Get author by given ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Author"
+                ],
+                "summary": "get author by given ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Author ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Author"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -78,6 +110,27 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Author": {
+            "type": "object",
+            "required": [
+                "full_name",
+                "id"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "full_name": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "updated_at": {

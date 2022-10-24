@@ -14,7 +14,7 @@ type IArticleService interface {
 	FindOneArticle(id uuid.UUID) (*model.Article, error)
 }
 
-func NewArticleService(repo repository.IArticleRepository) *ArticleService {
+func NewArticleService(repo repository.IArticleRepository) IArticleService {
 	return &ArticleService{
 		db: repo,
 	}

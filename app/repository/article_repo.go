@@ -14,7 +14,7 @@ type IArticleRepository interface {
 	FindOneArticle(id uuid.UUID) (*model.Article, error)
 }
 
-func NewArticleRepository(db *sqlx.DB) *ArticleRepository {
+func NewArticleRepository(db *sqlx.DB) IArticleRepository {
 	return &ArticleRepository{
 		db: db,
 	}

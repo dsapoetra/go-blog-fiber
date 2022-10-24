@@ -23,6 +23,20 @@ definitions:
     - id
     - title
     type: object
+  model.Author:
+    properties:
+      created_at:
+        type: string
+      full_name:
+        type: string
+      id:
+        type: string
+      updated_at:
+        type: string
+    required:
+    - full_name
+    - id
+    type: object
 info:
   contact: {}
 paths:
@@ -47,4 +61,25 @@ paths:
       summary: get article by given ID
       tags:
       - Article
+  /v1/author/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get author by given ID.
+      parameters:
+      - description: Author ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Author'
+      summary: get author by given ID
+      tags:
+      - Author
 swagger: "2.0"

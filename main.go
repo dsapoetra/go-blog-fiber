@@ -22,14 +22,16 @@ func main() {
 	app := fiber.New(config)
 
 	db, _ := database.PostgreSQLConnection()
-	repo := repository.NewArticleRepository(db)
-	svc := service.NewArticleService(repo)
+	articleRepo := repository.NewArticleRepository(db)
+	articleSvc := service.NewArticleService(articleRepo)
+
+	authorRepo := repository.NewAuthorRepository(db)
+	authorSvc := service.NewAuthorService(authorRepo)
 	//// Middlewares.
 	//middleware.FiberMiddleware(app) // Register Fiber's middleware for app.
 
 	//// Routes.
 	routes.SwaggerRoute(app) // Register a route for API Docs (Swagger).
-	//routes.PublicRoutes(app) // Register a public routes for app.
 	//routes.PrivateRoutes(app) // Register a private routes for app.
 	//routes.NotFoundRoute(app) // Register route for 404 Error.
 
@@ -39,7 +41,8 @@ func main() {
 	})
 
 	// Prepare our endpoints for the API.
-	handler.NewArticleHandler(api.Group("/"), svc)
+	handler.NewArticleHandler(api.Group("/"), articleSvc)
+	handler.NewAuthorHandler(api.Group("/"), authorSvc)
 
 	// Start server (with graceful shutdown).
 	utils.StartServerWithGracefulShutdown(app)
