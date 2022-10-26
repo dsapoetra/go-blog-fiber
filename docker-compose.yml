@@ -10,6 +10,7 @@ services:
     volumes:
       - data:/var/lib/postgresql/data
   server:
+    restart: always
     build:
       context: .
       dockerfile: Dockerfile

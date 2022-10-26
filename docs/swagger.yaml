@@ -61,6 +61,28 @@ paths:
       summary: get article by given ID
       tags:
       - Article
+  /v1/author:
+    post:
+      consumes:
+      - application/json
+      description: Create author by given Body.
+      parameters:
+      - description: Author
+        in: body
+        name: author
+        required: true
+        schema:
+          $ref: '#/definitions/model.Author'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Author'
+      summary: get author by given ID
+      tags:
+      - Author
   /v1/author/{id}:
     get:
       consumes:

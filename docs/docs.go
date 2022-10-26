@@ -48,6 +48,40 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/author": {
+            "post": {
+                "description": "Create author by given Body.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Author"
+                ],
+                "summary": "get author by given ID",
+                "parameters": [
+                    {
+                        "description": "Author",
+                        "name": "author",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Author"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Author"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/author/{id}": {
             "get": {
                 "description": "Get author by given ID.",

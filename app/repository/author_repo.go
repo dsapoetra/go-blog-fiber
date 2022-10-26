@@ -12,6 +12,7 @@ type AuthorRepository struct {
 
 type IAuthorRepository interface {
 	FindOneAuthor(id uuid.UUID) (*model.Author, error)
+	CreateAuthor(author *model.Author) error
 }
 
 func NewAuthorRepository(db *sqlx.DB) IAuthorRepository {
@@ -32,4 +33,12 @@ func (a *AuthorRepository) FindOneAuthor(id uuid.UUID) (*model.Author, error) {
 	}
 
 	return &author, nil
+}
+
+func (a *AuthorRepository) CreateAuthor(author *model.Author) error {
+	query := `INSERT INTO authors(created_at, updated_at, full_name) VALUES ($1, $2, $3)`
+
+	_, err := a.db.Exec(query, author.CreatedAt, author.UpdatedAt, author.FullName)
+
+	return err
 }

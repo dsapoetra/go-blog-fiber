@@ -12,6 +12,7 @@ type AuthorService struct {
 
 type IAuthorService interface {
 	FindOneAuthor(id uuid.UUID) (*model.Author, error)
+	CreateAuthor(author *model.Author) error
 }
 
 func NewAuthorService(repo repository.IAuthorRepository) IAuthorService {
@@ -28,4 +29,10 @@ func (a *AuthorService) FindOneAuthor(id uuid.UUID) (*model.Author, error) {
 	}
 
 	return res, nil
+}
+
+func (a *AuthorService) CreateAuthor(author *model.Author) error {
+	err := a.db.CreateAuthor(author)
+
+	return err
 }

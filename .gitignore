@@ -15,4 +15,6 @@
 # vendor/
 
 .idea/
-#.env
+.env
+vendor/
+bin/
