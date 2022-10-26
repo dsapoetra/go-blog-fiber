@@ -2,6 +2,8 @@ package main
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"go-blog-fiber/app/handler"
 	"go-blog-fiber/app/repository"
 	"go-blog-fiber/app/routes"
@@ -43,6 +45,13 @@ func main() {
 	// Prepare our endpoints for the API.
 	handler.NewArticleHandler(api.Group("/"), articleSvc)
 	handler.NewAuthorHandler(api.Group("/"), authorSvc)
+
+	app.Use(
+		// Add CORS to each route.
+		cors.New(),
+		// Add simple logger.
+		logger.New(),
+	)
 
 	// Start server (with graceful shutdown).
 	utils.StartServerWithGracefulShutdown(app)
