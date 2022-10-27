@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/google/uuid"
-	"go-blog-fiber/app/model"
+	"go-blog-fiber/app/model/repo"
 	"go-blog-fiber/app/repository"
 )
 
@@ -11,7 +11,7 @@ type ArticleService struct {
 }
 
 type IArticleService interface {
-	FindOneArticle(id uuid.UUID) (*model.Article, error)
+	FindOneArticle(id uuid.UUID) (*repo.Article, error)
 }
 
 func NewArticleService(repo repository.IArticleRepository) IArticleService {
@@ -20,7 +20,7 @@ func NewArticleService(repo repository.IArticleRepository) IArticleService {
 	}
 }
 
-func (a *ArticleService) FindOneArticle(id uuid.UUID) (*model.Article, error) {
+func (a *ArticleService) FindOneArticle(id uuid.UUID) (*repo.Article, error) {
 	res, err := a.db.FindOneArticle(id)
 
 	if err != nil {

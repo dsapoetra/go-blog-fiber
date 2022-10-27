@@ -43,3 +43,6 @@ swag:
 
 run:
 	go run main.go
+
+create-migration :
+	goose -dir platform/migrations create $(input) sql

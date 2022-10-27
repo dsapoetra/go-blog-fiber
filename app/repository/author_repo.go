@@ -1,9 +1,10 @@
 package repository
 
 import (
+	"fmt"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
-	"go-blog-fiber/app/model"
+	"go-blog-fiber/app/model/repo"
 )
 
 type AuthorRepository struct {
@@ -11,8 +12,8 @@ type AuthorRepository struct {
 }
 
 type IAuthorRepository interface {
-	FindOneAuthor(id uuid.UUID) (*model.Author, error)
-	CreateAuthor(author *model.Author) error
+	FindOneAuthor(id uuid.UUID) (*repo.Author, error)
+	CreateAuthor(author *repo.Author) error
 }
 
 func NewAuthorRepository(db *sqlx.DB) IAuthorRepository {
@@ -21,8 +22,8 @@ func NewAuthorRepository(db *sqlx.DB) IAuthorRepository {
 	}
 }
 
-func (a *AuthorRepository) FindOneAuthor(id uuid.UUID) (*model.Author, error) {
-	author := model.Author{}
+func (a *AuthorRepository) FindOneAuthor(id uuid.UUID) (*repo.Author, error) {
+	author := repo.Author{}
 
 	query := `SELECT * FROM authors where id = $1`
 
@@ -35,10 +36,12 @@ func (a *AuthorRepository) FindOneAuthor(id uuid.UUID) (*model.Author, error) {
 	return &author, nil
 }
 
-func (a *AuthorRepository) CreateAuthor(author *model.Author) error {
-	query := `INSERT INTO authors(created_at, updated_at, full_name) VALUES ($1, $2, $3)`
+func (a *AuthorRepository) CreateAuthor(author *repo.Author) error {
+	query := `INSERT INTO authors(created_at, updated_at, full_name, password, username, is_deleted) VALUES ($1, $2, $3, $4, $5, $6)`
 
-	_, err := a.db.Exec(query, author.CreatedAt, author.UpdatedAt, author.FullName)
-
+	_, err := a.db.Exec(query, author.CreatedAt, author.UpdatedAt, author.FullName, author.Password, author.UserName, false)
+	if err != nil {
+		fmt.Println("HEEEREE" + err.Error())
+	}
 	return err
 }

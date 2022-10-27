@@ -1,5 +1,5 @@
 definitions:
-  model.Article:
+  repo.Article:
     properties:
       author:
         type: string
@@ -23,7 +23,7 @@ definitions:
     - id
     - title
     type: object
-  model.Author:
+  repo.Author:
     properties:
       created_at:
         type: string
@@ -31,11 +31,17 @@ definitions:
         type: string
       id:
         type: string
+      password:
+        type: string
       updated_at:
+        type: string
+      username:
         type: string
     required:
     - full_name
     - id
+    - password
+    - username
     type: object
 info:
   contact: {}
@@ -57,7 +63,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Article'
+            $ref: '#/definitions/repo.Article'
       summary: get article by given ID
       tags:
       - Article
@@ -72,14 +78,14 @@ paths:
         name: author
         required: true
         schema:
-          $ref: '#/definitions/model.Author'
+          $ref: '#/definitions/repo.Author'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Author'
+            $ref: '#/definitions/repo.Author'
       summary: get author by given ID
       tags:
       - Author
@@ -100,7 +106,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Author'
+            $ref: '#/definitions/repo.Author'
       summary: get author by given ID
       tags:
       - Author

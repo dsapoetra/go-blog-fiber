@@ -3,7 +3,7 @@ package repository
 import (
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
-	"go-blog-fiber/app/model"
+	"go-blog-fiber/app/model/repo"
 	"log"
 )
 
@@ -12,7 +12,7 @@ type ArticleRepository struct {
 }
 
 type IArticleRepository interface {
-	FindOneArticle(id uuid.UUID) (*model.Article, error)
+	FindOneArticle(id uuid.UUID) (*repo.Article, error)
 }
 
 func NewArticleRepository(db *sqlx.DB) IArticleRepository {
@@ -21,8 +21,8 @@ func NewArticleRepository(db *sqlx.DB) IArticleRepository {
 	}
 }
 
-func (a *ArticleRepository) FindOneArticle(id uuid.UUID) (*model.Article, error) {
-	article := model.Article{}
+func (a *ArticleRepository) FindOneArticle(id uuid.UUID) (*repo.Article, error) {
+	article := repo.Article{}
 	log.Println("HEREEEEEEEEEE 2")
 
 	query := `SELECT * FROM articles where id = $1`

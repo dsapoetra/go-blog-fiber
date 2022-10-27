@@ -42,7 +42,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Article"
+                            "$ref": "#/definitions/repo.Article"
                         }
                     }
                 }
@@ -68,7 +68,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.Author"
+                            "$ref": "#/definitions/repo.Author"
                         }
                     }
                 ],
@@ -76,7 +76,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Author"
+                            "$ref": "#/definitions/repo.Author"
                         }
                     }
                 }
@@ -108,7 +108,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Author"
+                            "$ref": "#/definitions/repo.Author"
                         }
                     }
                 }
@@ -116,7 +116,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "model.Article": {
+        "repo.Article": {
             "type": "object",
             "required": [
                 "author",
@@ -151,11 +151,13 @@ const docTemplate = `{
                 }
             }
         },
-        "model.Author": {
+        "repo.Author": {
             "type": "object",
             "required": [
                 "full_name",
-                "id"
+                "id",
+                "password",
+                "username"
             ],
             "properties": {
                 "created_at": {
@@ -167,7 +169,13 @@ const docTemplate = `{
                 "id": {
                     "type": "string"
                 },
+                "password": {
+                    "type": "string"
+                },
                 "updated_at": {
+                    "type": "string"
+                },
+                "username": {
                     "type": "string"
                 }
             }

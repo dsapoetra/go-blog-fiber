@@ -3,9 +3,9 @@ package handler
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
-	"go-blog-fiber/app/model"
+	"go-blog-fiber/app/model/repo"
 	"go-blog-fiber/app/service"
-	"log"
+	"go-blog-fiber/pkg/utils"
 	"time"
 )
 
@@ -21,7 +21,7 @@ func NewAuthorHandler(app fiber.Router, authorSrv service.IAuthorService) {
 // @Accept json
 // @Produce json
 // @Param id path string true "Author ID"
-// @Success 200 {object} model.Author
+// @Success 200 {object} repo.Author
 // @Router /v1/author/{id} [get]
 func GetAuthor(authorService service.IAuthorService) fiber.Handler {
 	return func(c *fiber.Ctx) error {
@@ -59,13 +59,13 @@ func GetAuthor(authorService service.IAuthorService) fiber.Handler {
 // @Tags Author
 // @Accept json
 // @Produce json
-// @Param author body model.Author true "Author"
-// @Success 200 {object} model.Author
+// @Param author body repo.Author true "Author"
+// @Success 200 {object} repo.Author
 // @Router /v1/author [post]
 func CreateAuthor(authorService service.IAuthorService) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		// Catch book ID from URL.
-		body := &model.Author{}
+		body := &repo.Author{}
 
 		if err := c.BodyParser(body); err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -77,8 +77,7 @@ func CreateAuthor(authorService service.IAuthorService) fiber.Handler {
 
 		body.CreatedAt = time.Now()
 		body.UpdatedAt = time.Now()
-
-		log.Println(body.FullName)
+		body.Password = utils.Encrypt(body.Password)
 
 		err := authorService.CreateAuthor(body)
 		if err != nil {

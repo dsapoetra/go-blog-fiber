@@ -17,7 +17,7 @@ func NewArticleHandler(app fiber.Router, userSrv service.IArticleService) {
 // @Accept json
 // @Produce json
 // @Param id path string true "Article ID"
-// @Success 200 {object} model.Article
+// @Success 200 {object} repo.Article
 // @Router /v1/article/{id} [get]
 func GetArticle(articleService service.IArticleService) fiber.Handler {
 	return func(c *fiber.Ctx) error {
