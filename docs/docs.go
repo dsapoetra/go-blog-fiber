@@ -16,6 +16,52 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/v1/article": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Create article by given Body.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Article"
+                ],
+                "summary": "get author by given ID",
+                "parameters": [
+                    {
+                        "description": "Article",
+                        "name": "author",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/http.CreateArticleRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Bearer",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/repo.Article"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/article/{id}": {
             "get": {
                 "description": "Get article by given ID.",
@@ -150,6 +196,25 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "http.CreateArticleRequest": {
+            "type": "object",
+            "required": [
+                "author",
+                "content",
+                "title"
+            ],
+            "properties": {
+                "author": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
         "http.LoginAuthorRequest": {
             "type": "object",
             "required": [
@@ -214,6 +279,7 @@ const docTemplate = `{
                 "full_name",
                 "id",
                 "password",
+                "password",
                 "username"
             ],
             "properties": {
@@ -227,7 +293,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "boolean"
                 },
                 "updated_at": {
                     "type": "string"

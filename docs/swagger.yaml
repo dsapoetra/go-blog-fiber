@@ -1,4 +1,17 @@
 definitions:
+  http.CreateArticleRequest:
+    properties:
+      author:
+        type: string
+      content:
+        type: string
+      title:
+        type: string
+    required:
+    - author
+    - content
+    - title
+    type: object
   http.LoginAuthorRequest:
     properties:
       password:
@@ -47,7 +60,7 @@ definitions:
       id:
         type: string
       password:
-        type: string
+        type: boolean
       updated_at:
         type: string
       username:
@@ -56,11 +69,41 @@ definitions:
     - full_name
     - id
     - password
+    - password
     - username
     type: object
 info:
   contact: {}
 paths:
+  /v1/article:
+    post:
+      consumes:
+      - application/json
+      description: Create article by given Body.
+      parameters:
+      - description: Article
+        in: body
+        name: author
+        required: true
+        schema:
+          $ref: '#/definitions/http.CreateArticleRequest'
+      - description: Bearer
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/repo.Article'
+      security:
+      - ApiKeyAuth: []
+      summary: get author by given ID
+      tags:
+      - Article
   /v1/article/{id}:
     get:
       consumes:

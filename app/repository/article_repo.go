@@ -12,6 +12,7 @@ type ArticleRepository struct {
 
 type IArticleRepository interface {
 	FindOneArticle(id uuid.UUID) (*repo.Article, error)
+	CreateArticle(article *repo.Article) error
 }
 
 func NewArticleRepository(db *sqlx.DB) IArticleRepository {
@@ -32,4 +33,12 @@ func (a *ArticleRepository) FindOneArticle(id uuid.UUID) (*repo.Article, error) 
 	}
 
 	return &article, nil
+}
+
+func (a *ArticleRepository) CreateArticle(article *repo.Article) error {
+	query := `INSERT INTO articles(created_at, updated_at, title, content, author, likes, is_deleted) VALUES ($1, $2, $3, $4, $5, $6, $7)`
+
+	_, err := a.db.Exec(query, article.CreatedAt, article.UpdatedAt, article.Title, article.Content, article.Author, 0, false)
+
+	return err
 }
