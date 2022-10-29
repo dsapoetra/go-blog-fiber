@@ -14,12 +14,27 @@ type AuthorRepository struct {
 type IAuthorRepository interface {
 	FindOneAuthor(id uuid.UUID) (*repo.Author, error)
 	CreateAuthor(author *repo.Author) error
+	FindAuthorByUsername(username string) (*repo.Author, error)
 }
 
 func NewAuthorRepository(db *sqlx.DB) IAuthorRepository {
 	return &AuthorRepository{
 		db: db,
 	}
+}
+
+func (a *AuthorRepository) FindAuthorByUsername(username string) (*repo.Author, error) {
+	author := repo.Author{}
+
+	query := `SELECT * FROM authors where username = $1`
+
+	err := a.db.Get(&author, query, username)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &author, nil
 }
 
 func (a *AuthorRepository) FindOneAuthor(id uuid.UUID) (*repo.Author, error) {

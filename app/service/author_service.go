@@ -2,8 +2,11 @@ package service
 
 import (
 	"github.com/google/uuid"
+	"go-blog-fiber/app/model/http"
 	"go-blog-fiber/app/model/repo"
 	"go-blog-fiber/app/repository"
+	"go-blog-fiber/pkg/utils"
+	"log"
 )
 
 type AuthorService struct {
@@ -13,12 +16,35 @@ type AuthorService struct {
 type IAuthorService interface {
 	FindOneAuthor(id uuid.UUID) (*repo.Author, error)
 	CreateAuthor(author *repo.Author) error
+	LoginAuthor(credential *http.LoginAuthorRequest) (string, error)
 }
 
 func NewAuthorService(repo repository.IAuthorRepository) IAuthorService {
 	return &AuthorService{
 		db: repo,
 	}
+}
+
+func (a *AuthorService) LoginAuthor(credential *http.LoginAuthorRequest) (string, error) {
+	author, err := a.db.FindAuthorByUsername(credential.UserName)
+
+	if err != nil {
+		return "", err
+	}
+
+	if err = utils.ComparePass(author.Password, credential.Password); err != nil {
+		log.Println("HERE 1")
+		return "", err
+	}
+
+	tokenString, err := utils.SignedToken(*author)
+
+	if err != nil {
+		log.Println("HERE 2")
+		return "", err
+	}
+
+	return tokenString, err
 }
 
 func (a *AuthorService) FindOneAuthor(id uuid.UUID) (*repo.Author, error) {

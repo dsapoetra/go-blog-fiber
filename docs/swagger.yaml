@@ -1,4 +1,19 @@
 definitions:
+  http.LoginAuthorRequest:
+    properties:
+      password:
+        type: string
+      user_name:
+        type: string
+    required:
+    - password
+    - user_name
+    type: object
+  http.LoginAuthorResponse:
+    properties:
+      token:
+        type: string
+    type: object
   repo.Article:
     properties:
       author:
@@ -107,6 +122,28 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/repo.Author'
+      summary: get author by given ID
+      tags:
+      - Author
+  /v1/login:
+    post:
+      consumes:
+      - application/json
+      description: Create author by given Body.
+      parameters:
+      - description: Author
+        in: body
+        name: author
+        required: true
+        schema:
+          $ref: '#/definitions/http.LoginAuthorRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.LoginAuthorResponse'
       summary: get author by given ID
       tags:
       - Author

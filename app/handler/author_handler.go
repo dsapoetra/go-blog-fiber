@@ -3,6 +3,7 @@ package handler
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
+	"go-blog-fiber/app/model/http"
 	"go-blog-fiber/app/model/repo"
 	"go-blog-fiber/app/service"
 	"go-blog-fiber/pkg/utils"
@@ -12,6 +13,8 @@ import (
 func NewAuthorHandler(app fiber.Router, authorSrv service.IAuthorService) {
 	app.Get("/author/:id", GetAuthor(authorSrv))
 	app.Post("/author", CreateAuthor(authorSrv))
+	app.Post("/login", LoginAuthor(authorSrv))
+
 }
 
 // GetAuthor func gets author by given ID or 404 error.
@@ -92,6 +95,45 @@ func CreateAuthor(authorService service.IAuthorService) fiber.Handler {
 		return c.JSON(fiber.Map{
 			"error": false,
 			"msg":   nil,
+		})
+	}
+}
+
+// LoginAuthor func gets author by given ID or 404 error.
+// @Description Create author by given Body.
+// @Summary get author by given ID
+// @Tags Author
+// @Accept json
+// @Produce json
+// @Param author body http.LoginAuthorRequest true "Author"
+// @Success 200 {object} http.LoginAuthorResponse
+// @Router /v1/login [post]
+func LoginAuthor(authorService service.IAuthorService) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		// Catch book ID from URL.
+		body := &http.LoginAuthorRequest{}
+
+		if err := c.BodyParser(body); err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error":  true,
+				"lalala": true,
+				"msg":    err.Error(),
+			})
+		}
+
+		token, err := authorService.LoginAuthor(body)
+		if err != nil {
+			// Return, if book not found.
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"error": true,
+				"msg":   err.Error(),
+			})
+		}
+
+		// Return status 200 OK.
+		return c.JSON(fiber.Map{
+			"error": false,
+			"token": token,
 		})
 	}
 }

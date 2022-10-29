@@ -113,9 +113,66 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/v1/login": {
+            "post": {
+                "description": "Create author by given Body.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Author"
+                ],
+                "summary": "get author by given ID",
+                "parameters": [
+                    {
+                        "description": "Author",
+                        "name": "author",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/http.LoginAuthorRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/http.LoginAuthorResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "http.LoginAuthorRequest": {
+            "type": "object",
+            "required": [
+                "password",
+                "user_name"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "user_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "http.LoginAuthorResponse": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
         "repo.Article": {
             "type": "object",
             "required": [
