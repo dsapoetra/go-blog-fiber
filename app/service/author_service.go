@@ -6,7 +6,6 @@ import (
 	"go-blog-fiber/app/model/repo"
 	"go-blog-fiber/app/repository"
 	"go-blog-fiber/pkg/utils"
-	"log"
 )
 
 type AuthorService struct {
@@ -33,14 +32,12 @@ func (a *AuthorService) LoginAuthor(credential *http.LoginAuthorRequest) (string
 	}
 
 	if err = utils.ComparePass(author.Password, credential.Password); err != nil {
-		log.Println("HERE 1")
 		return "", err
 	}
 
 	tokenString, err := utils.SignedToken(*author)
 
 	if err != nil {
-		log.Println("HERE 2")
 		return "", err
 	}
 

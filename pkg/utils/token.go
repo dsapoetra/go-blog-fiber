@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/golang-jwt/jwt/v4"
 	"go-blog-fiber/app/model/repo"
-	"log"
 	"os"
 	"time"
 )
@@ -20,7 +19,6 @@ func SignedToken(author repo.Author) (string, error) {
 	tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
 
 	if err != nil {
-		log.Println("HERE 3" + string([]byte(os.Getenv("JWT_SECRET"))))
 		return "", err
 	}
 
